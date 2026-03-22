@@ -1,0 +1,1 @@
+['MaVaiTroNV', 'MaTaiKhoanNV', 'MaVaiTro', 'MaTruong', 'MaCoSo', 'MaKhoa', 'MaBoMon', 'NgayGan', 'NguoiGan', 'NgayHetHan', 'ConHieuLuc']

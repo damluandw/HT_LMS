@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quản lý Lớp học phần & Học phần | HT_LMS</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <style>
+    .tab-nav { display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--dark-border); padding-bottom: .25rem; }
+    .tab-item { 
+        padding: .75rem 1.5rem; border-radius: 10px; cursor: pointer; color: var(--dark-muted); font-weight: 600; 
+        transition: all .2s ease; border: 2px solid transparent; margin-bottom: -2px;
+    }
+    .tab-item:hover { color: var(--dark-text); background: rgba(255,255,255,0.05); }
+    .tab-item.active { 
+        color: var(--primary); background: rgba(37,99,235,0.1); border-color: var(--primary);
+    }
+    .view-pane { display: none; animation: fadeIn .3s ease; }
+    .view-pane.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#2563EB,#7C3AED);display:grid;place-items:center">
+        <i class="bi bi-mortarboard-fill" style="color:#fff;font-size:1.1rem"></i>
+      </div>
+      <span>HT_LMS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-section-title">Tổng quan</p>
+      <a class="nav-item" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <p class="nav-section-title">Quản lý người dùng</p>
+      <a class="nav-item" href="nguoi-hoc.html"><i class="bi bi-person-badge"></i> Người học</a>
+      <a class="nav-item" href="giang-vien.html"><i class="bi bi-person-workspace"></i> Giảng viên</a>
+      <a class="nav-item" href="nhan-vien.html"><i class="bi bi-person-gear"></i> Nhân viên</a>
+      <p class="nav-section-title">Cơ cấu tổ chức</p>
+      <a class="nav-item" href="khoa.html"><i class="bi bi-building"></i> Khoa / Bộ môn</a>
+      <a class="nav-item" href="nganh.html"><i class="bi bi-diagram-3"></i> Ngành / Lớp HC</a>
+      <p class="nav-section-title">Học vụ</p>
+      <a class="nav-item" href="hoc-ky.html"><i class="bi bi-calendar3"></i> Học kỳ</a>
+      <a class="nav-item active" href="lop-hoc-phan.html"><i class="bi bi-collection"></i> Lớp học phần</a>
+      <p class="nav-section-title">Hệ thống</p>
+      <a class="nav-item" href="../shared/profile.html"><i class="bi bi-person-circle"></i> Hồ sơ cá nhân</a>
+      <a class="nav-item" href="nhat-ky.html"><i class="bi bi-journal-text"></i> Nhật ký hệ thống</a>
+      <a class="nav-item" href="bao-cao.html"><i class="bi bi-bar-chart-line"></i> Báo cáo</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <button class="btn-icon sidebar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <div class="topbar-title">Danh mục Lớp học phần</div>
+    </div>
+
+    <div class="page-content">
+      <div class="tab-nav">
+        <div class="tab-item active" onclick="switchTab('lhp')">Lớp học phần</div>
+        <div class="tab-item" onclick="switchTab('hp')">Học phần / Môn học</div>
+      </div>
+
+      <!-- LHP PANE -->
+      <div id="pane-lhp" class="view-pane active">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+          <div style="display:flex; gap:1rem">
+            <select class="form-control" style="width:200px" id="selHkFilter" onchange="loadLhp(this.value)">
+                <option value="">Tất cả học kỳ</option>
+            </select>
+          </div>
+          <a href="edit.html?type=lophocphan" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Mở Lớp Học phần</a>
+        </div>
+        <div class="card" style="padding:0">
+          <div class="table-responsive">
+            <table class="lms-table">
+              <thead>
+                <tr>
+                  <th>Mã Lớp HP</th>
+                  <th>Tên Lớp HP</th>
+                  <th>Học phần</th>
+                  <th>Giảng viên</th>
+                  <th>Sĩ số</th>
+                  <th>Trạng thái</th>
+                  <th style="text-align:right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="lhpBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- HP PANE -->
+      <div id="pane-hp" class="view-pane">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+          <div class="search-wrap" style="width:300px">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control" placeholder="Tìm kiếm học phần..." oninput="filterHp(this.value)">
+          </div>
+          <a href="edit.html?type=hocphan" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Thêm Học phần</a>
+        </div>
+        <div class="card" style="padding:0">
+          <div class="table-responsive">
+            <table class="lms-table">
+              <thead>
+                <tr>
+                  <th>Mã HP</th>
+                  <th>Tên Học phần</th>
+                  <th>Số TC</th>
+                  <th>Loại</th>
+                  <th style="text-align:right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="hpBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="../../assets/js/api.js"></script>
+<script>
+let allHp = [];
+let allLhp = [];
+
+function switchTab(tab) {
+    $('.tab-item').removeClass('active');
+    $(`.tab-item[onclick*='${tab}']`).addClass('active');
+    $('.view-pane').removeClass('active');
+    $(`#pane-${tab}`).addClass('active');
+    if (tab === 'hp') loadHp(); else loadLhp();
+}
+
+async function loadHp() {
+    try {
+        const res = await api.getHocPhan();
+        allHp = res.data || [];
+        renderHp(allHp);
+    } catch(err) { Toast.show('Lỗi tải học phần', 'error'); }
+}
+
+function renderHp(data) {
+    $('#hpBody').html(data.map(h => `
+        <tr>
+            <td><strong>${h.MaHocPhanCode || '—'}</strong></td>
+            <td>${h.TenHocPhan}</td>
+            <td>${h.SoTinChi}</td>
+            <td><span class="badge ${h.LoaiHocPhan === 'BatBuoc' ? 'badge-primary' : 'badge-muted'}">${h.LoaiHocPhan}</span></td>
+            <td style="text-align:right">
+                <a href="edit.html?type=hocphan&id=${h.MaHocPhan}" class="btn-icon"><i class="bi bi-pencil" style="color:var(--primary)"></i></a>
+                <button class="btn-icon" onclick="deleteHp(${h.MaHocPhan})"><i class="bi bi-trash" style="color:#ef4444"></i></button>
+            </td>
+        </tr>
+    `).join(''));
+}
+
+async function loadLhp(maHk = '') {
+    try {
+        const res = await api.getLopHocPhan({ ma_hoc_ky: maHk });
+        allLhp = res.data || [];
+        renderLhp(allLhp);
+        
+        // Load HKs for filter if not done
+        if (!$('#selHkFilter option[value!=""]').length) {
+            const hks = await api.getHocKy();
+            $('#selHkFilter').append(hks.data.map(hk => `<option value="${hk.MaHocKy}">${hk.TenHocKy} (${hk.NamHoc})</option>`).join(''));
+        }
+    } catch(err) { Toast.show('Lỗi tải lớp học phần', 'error'); }
+}
+
+function renderLhp(data) {
+    $('#lhpBody').html(data.map(l => `
+        <tr>
+            <td><strong>${l.MaLopHPCode || '—'}</strong></td>
+            <td>${l.TenLopHP}</td>
+            <td>${l.TenHocPhan}</td>
+            <td>${l.HoTenGV || 'Chưa phân công'}</td>
+            <td><span class="badge badge-primary">${l.DaDangKy || 0}/${l.SiSoToiDa}</span></td>
+            <td>${LMSUtils.badgeByTrangThai(l.TrangThai)}</td>
+            <td style="text-align:right">
+                <a href="edit.html?type=lophocphan&id=${l.MaLopHP}" class="btn-icon"><i class="bi bi-pencil" style="color:var(--primary)"></i></a>
+                <button class="btn-icon" onclick="deleteLhp(${l.MaLopHP})"><i class="bi bi-trash" style="color:#ef4444"></i></button>
+            </td>
+        </tr>
+    `).join(''));
+}
+
+function filterHp(q) {
+    const filtered = allHp.filter(h => h.TenHocPhan.toLowerCase().includes(q.toLowerCase()) || h.MaHocPhanCode?.toLowerCase().includes(q.toLowerCase()));
+    renderHp(filtered);
+}
+
+async function deleteHp(id) {
+    if (!confirm('Xác nhận xóa học phần?')) return;
+    try { await api.deleteHocPhan(id); loadHp(); } catch(err) { Toast.show(err.message, 'error'); }
+}
+async function deleteLhp(id) {
+    if (!confirm('Xác nhận xóa lớp học phần?')) return;
+    try { await api.deleteLopHocPhan(id); loadLhp(); } catch(err) { Toast.show(err.message, 'error'); }
+}
+
+$('#sidebarToggle').click(() => $('#sidebar').toggleClass('open'));
+loadLhp();
+</script>
+</body>
+</html>

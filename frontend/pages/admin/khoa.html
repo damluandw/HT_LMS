@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quản lý Khoa & Bộ môn | HT_LMS</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <style>
+    .tab-nav { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--dark-border); padding-bottom: .5rem; }
+    .tab-item { 
+        padding: .75rem 1.5rem; border-radius: 10px; cursor: pointer; color: var(--dark-muted); font-weight: 600; 
+        transition: all .2s ease; border: 1px solid transparent;
+    }
+    .tab-item:hover { color: var(--dark-text); background: rgba(255,255,255,0.05); }
+    .tab-item.active { 
+        color: var(--primary); background: rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.2);
+    }
+    
+    .view-pane { display: none; animation: fadeIn .3s ease; }
+    .view-pane.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    .action-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap; }
+    .search-box { position: relative; flex: 1; min-width: 250px; }
+    .search-box i { position: absolute; left: 1rem; top: 50%; translate: 0 -50%; color: var(--dark-muted); }
+    .search-box input { width: 100%; padding: .75rem 1rem .75rem 2.8rem; border-radius: 12px; background: var(--dark-surface); border: 1px solid var(--dark-border); color: var(--dark-text); }
+  </style>
+</head>
+<body>
+<div class="app-wrapper">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#2563EB,#7C3AED);display:grid;place-items:center">
+        <i class="bi bi-mortarboard-fill" style="color:#fff;font-size:1.1rem"></i>
+      </div>
+      <span>HT_LMS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-section-title">Tổng quan</p>
+      <a class="nav-item" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <p class="nav-section-title">Quản lý người dùng</p>
+      <a class="nav-item" href="nguoi-hoc.html"><i class="bi bi-person-badge"></i> Người học</a>
+      <a class="nav-item" href="giang-vien.html"><i class="bi bi-person-workspace"></i> Giảng viên</a>
+      <a class="nav-item" href="nhan-vien.html"><i class="bi bi-person-gear"></i> Nhân viên</a>
+      <p class="nav-section-title">Cơ cấu tổ chức</p>
+      <a class="nav-item active" href="khoa.html"><i class="bi bi-building"></i> Khoa / Bộ môn</a>
+      <a class="nav-item" href="nganh.html"><i class="bi bi-diagram-3"></i> Ngành / Lớp HC</a>
+      <p class="nav-section-title">Học vụ</p>
+      <a class="nav-item" href="hoc-ky.html"><i class="bi bi-calendar3"></i> Học kỳ</a>
+      <a class="nav-item" href="lop-hoc-phan.html"><i class="bi bi-collection"></i> Lớp học phần</a>
+      <p class="nav-section-title">Hệ thống</p>
+      <a class="nav-item" href="../shared/profile.html"><i class="bi bi-person-circle"></i> Hồ sơ cá nhân</a>
+      <a class="nav-item" href="nhat-ky.html"><i class="bi bi-journal-text"></i> Nhật ký hệ thống</a>
+      <a class="nav-item" href="bao-cao.html"><i class="bi bi-bar-chart-line"></i> Báo cáo</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <button class="btn-icon sidebar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <div class="topbar-title">Danh mục Khoa & Bộ môn</div>
+      <div class="topbar-actions">
+        <button class="btn-icon" id="themeToggle"><i class="bi bi-sun"></i></button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="tab-nav">
+        <div class="tab-item active" onclick="switchTab('khoa')">Khoa</div>
+        <div class="tab-item" onclick="switchTab('bomon')">Bộ môn</div>
+      </div>
+
+      <!-- KHOA PANE -->
+      <div id="pane-khoa" class="view-pane active">
+        <div class="action-bar">
+          <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Tìm kiếm khoa (Tên, mã)..." oninput="filterKhoa(this.value)">
+          </div>
+          <a href="edit.html?type=khoa" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Thêm Khoa</a>
+        </div>
+        <div class="card" style="padding:0">
+          <div class="table-responsive">
+            <table class="lms-table">
+              <thead><tr><th>Mã Khoa</th><th>Tên Khoa</th><th>Mô tả</th><th>Bộ môn</th><th style="text-align:right">Thao tác</th></tr></thead>
+              <tbody id="khoaBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOMON PANE -->
+      <div id="pane-bomon" class="view-pane">
+        <div class="action-bar">
+          <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Tìm kiếm bộ môn..." oninput="filterBoMon(this.value)">
+          </div>
+          <div id="khoaFilter" style="min-width: 200px">
+            <select class="form-control" onchange="loadBoMon(this.value)" id="selKhoaFilter">
+                <option value="">Tất cả các khoa</option>
+            </select>
+          </div>
+          <a href="edit.html?type=bomon" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Thêm Bộ môn</a>
+        </div>
+        <div class="card" style="padding:0">
+          <div class="table-responsive">
+            <table class="lms-table">
+              <thead><tr><th>Mã BM</th><th>Tên Bộ môn</th><th>Thuộc Khoa</th><th style="text-align:right">Thao tác</th></tr></thead>
+              <tbody id="boMonBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="../../assets/js/api.js"></script>
+<script>
+let allKhoa = [];
+let allBoMon = [];
+
+function switchTab(tab) {
+    $('.tab-item').removeClass('active');
+    $(`.tab-item[onclick*='${tab}']`).addClass('active');
+    $('.view-pane').removeClass('active');
+    $(`#pane-${tab}`).addClass('active');
+    if (tab === 'khoa') loadKhoa(); else loadBoMon();
+}
+
+async function loadKhoa() {
+    try {
+        const res = await api.getKhoa();
+        allKhoa = res.data || [];
+        renderKhoa(allKhoa);
+        const options = '<option value="">Tất cả các khoa</option>' + allKhoa.map(k => `<option value="${k.MaKhoa}">${k.TenKhoa}</option>`).join('');
+        $('#selKhoaFilter').html(options);
+    } catch(err) { Toast.show('Lỗi tải danh sách khoa', 'error'); }
+}
+
+function renderKhoa(data) {
+    $('#khoaBody').html(data.map(k => `
+        <tr>
+            <td><strong>${k.MaKhoaCode || '—'}</strong></td>
+            <td>${k.TenKhoa}</td>
+            <td style="font-size:.85rem;color:var(--dark-muted)">${k.MoTa || '—'}</td>
+            <td><span class="badge badge-primary">${k.SoBoMon || 0}</span></td>
+            <td style="text-align:right">
+                <a href="edit.html?type=khoa&id=${k.MaKhoa}" class="btn-icon"><i class="bi bi-pencil" style="color:var(--primary)"></i></a>
+                <button class="btn-icon" onclick="deleteKhoa(${k.MaKhoa})"><i class="bi bi-trash" style="color:#ef4444"></i></button>
+            </td>
+        </tr>
+    `).join(''));
+}
+
+async function loadBoMon(maKhoa = '') {
+    try {
+        const res = await api.getBoMon(maKhoa);
+        allBoMon = res.data || [];
+        renderBoMon(allBoMon);
+    } catch(err) { Toast.show('Lỗi tải danh sách bộ môn', 'error'); }
+}
+
+function renderBoMon(data) {
+    $('#boMonBody').html(data.map(b => `
+        <tr>
+            <td><strong>${b.MaBoMonCode || '—'}</strong></td>
+            <td>${b.TenBoMon}</td>
+            <td>${b.TenKhoa}</td>
+            <td style="text-align:right">
+                <a href="edit.html?type=bomon&id=${b.MaBoMon}" class="btn-icon"><i class="bi bi-pencil" style="color:var(--primary)"></i></a>
+                <button class="btn-icon" onclick="deleteBoMon(${b.MaBoMon})"><i class="bi bi-trash" style="color:#ef4444"></i></button>
+            </td>
+        </tr>
+    `).join(''));
+}
+
+function filterKhoa(q) {
+    const filtered = allKhoa.filter(k => k.TenKhoa.toLowerCase().includes(q.toLowerCase()) || k.MaKhoaCode?.toLowerCase().includes(q.toLowerCase()));
+    renderKhoa(filtered);
+}
+function filterBoMon(q) {
+    const filtered = allBoMon.filter(b => b.TenBoMon.toLowerCase().includes(q.toLowerCase()));
+    renderBoMon(filtered);
+}
+
+async function deleteKhoa(id) {
+    if (!confirm('Xóa khoa này? Toàn bộ bộ môn trực thuộc cũng sẽ bị ảnh hưởng.')) return;
+    try { await api.deleteKhoa(id); loadKhoa(); } catch(err) { Toast.show(err.message, 'error'); }
+}
+async function deleteBoMon(id) {
+    if (!confirm('Xác nhận xóa bộ môn?')) return;
+    try { await api.deleteBoMon(id); loadBoMon(); } catch(err) { Toast.show(err.message, 'error'); }
+}
+
+$('#sidebarToggle').click(() => $('#sidebar').toggleClass('open'));
+loadKhoa();
+</script>
+</body>
+</html>

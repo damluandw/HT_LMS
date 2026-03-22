@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng nhập – HT_LMS</title>
+  <meta name="description" content="Hệ thống Quản lý Học tập HT_LMS – Đăng nhập để tiếp tục">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #2563EB; --primary-dark: #1D4ED8;
+      --secondary: #7C3AED; --dark-bg: #0F172A;
+      --dark-surface: #1E293B; --dark-border: #334155;
+      --dark-text: #F1F5F9; --dark-muted: #94A3B8;
+      --radius: 10px; --radius-lg: 16px;
+    }
+    [data-theme="light"] {
+      --dark-bg: #F1F5F9;
+      --dark-surface: #FFFFFF;
+      --dark-border: #E2E8F0;
+      --dark-text: #0F172A;
+      --dark-muted: #64748B;
+    }
+    [data-theme="light"] .left-panel {
+      background: linear-gradient(135deg, #F1F5F9 0%, #DBEAFE 50%, #E0E7FF 100%);
+    }
+    [data-theme="light"] .feature-item {
+      background: rgba(0,0,0,.03);
+      border: 1px solid rgba(0,0,0,.05);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark-bg);
+      color: var(--dark-text);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── Left panel ── */
+    .left-panel {
+      width: 55%;
+      background: linear-gradient(135deg, #0F172A 0%, #1a1160 50%, #0F172A 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .left-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, rgba(37,99,235,.25) 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 20%, rgba(124,58,237,.2) 0%, transparent 45%);
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .35;
+      animation: float 8s ease-in-out infinite;
+    }
+    .orb-1 { width: 350px; height: 350px; background: #2563EB; top: -80px; left: -80px; animation-delay: 0s; }
+    .orb-2 { width: 260px; height: 260px; background: #7C3AED; bottom: -60px; right: -60px; animation-delay: 3s; }
+    @keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-20px) } }
+
+    .brand { position: relative; text-align: center; z-index: 1; }
+    .brand-logo {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, #2563EB, #7C3AED);
+      border-radius: 20px;
+      display: grid; place-items: center;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 0 40px rgba(37,99,235,.4);
+    }
+    .brand-logo i { font-size: 2rem; color: #fff; }
+    .brand h1 { font-size: 2rem; font-weight: 800; letter-spacing: -.03em; }
+    .brand h1 span { background: linear-gradient(135deg, #60A5FA, #C084FC); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .brand p { color: var(--dark-muted); font-size: .95rem; margin-top: .5rem; line-height: 1.5; }
+
+    .feature-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: .9rem; position: relative; z-index: 1; }
+    .feature-item {
+      display: flex; align-items: center; gap: .75rem;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: .7rem 1rem;
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+    }
+    .feature-item i { font-size: 1.1rem; color: #60A5FA; width: 24px; }
+    .feature-item span { font-size: .85rem; color: var(--dark-muted); }
+    .feature-item strong { color: var(--dark-text); }
+
+    /* ── Right panel ── */
+    .right-panel {
+      width: 45%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: var(--dark-bg);
+      position: relative;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+    }
+    .login-box h2 { font-size: 1.55rem; font-weight: 800; }
+    .login-box p.subtitle { color: var(--dark-muted); font-size: .88rem; margin-top: .3rem; margin-bottom: 2rem; }
+
+    /* Role selector */
+    .role-selector {
+      display: flex;
+      gap: .4rem;
+      background: var(--dark-surface);
+      border: 1px solid var(--dark-border);
+      padding: .3rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .role-btn {
+      flex: 1;
+      padding: .5rem .3rem;
+      border: none;
+      background: transparent;
+      color: var(--dark-muted);
+      font-size: .78rem;
+      font-weight: 600;
+      border-radius: 7px;
+      cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: .2rem;
+      transition: all .2s;
+    }
+    .role-btn i { font-size: 1.1rem; }
+    .role-btn.active { background: var(--primary); color: #fff; }
+    .role-btn:not(.active):hover { background: rgba(255,255,255,.05); color: var(--dark-text); }
+
+    /* Form */
+    .form-group { margin-bottom: 1rem; }
+    .form-label { display: block; font-size: .8rem; font-weight: 600; color: var(--dark-muted); margin-bottom: .4rem; }
+    .input-wrap { position: relative; }
+    .input-wrap i.ic-left {
+      position: absolute; left: .85rem; top: 50%; transform: translateY(-50%);
+      color: var(--dark-muted); pointer-events: none; font-size: 1rem;
+    }
+    .form-input {
+      width: 100%;
+      padding: .65rem .9rem .65rem 2.4rem;
+      background: var(--dark-surface);
+      border: 1.5px solid var(--dark-border);
+      color: var(--dark-text);
+      border-radius: var(--radius);
+      font-size: .9rem;
+      font-family: inherit;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,.18); }
+    .form-input::placeholder { color: var(--dark-muted); }
+    .password-toggle {
+      position: absolute; right: .85rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--dark-muted);
+      cursor: pointer; font-size: 1rem; padding: .1rem;
+      transition: color .2s;
+    }
+    .password-toggle:hover { color: var(--dark-text); }
+    .input-wrap .form-input[type="password"] { padding-right: 2.5rem; }
+
+    .forgot-link {
+      font-size: .78rem; color: var(--primary);
+      float: right; margin-bottom: .3rem;
+      text-decoration: none;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    /* Submit button */
+    .btn-login {
+      width: 100%;
+      padding: .75rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      margin-top: .5rem;
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+    }
+    .btn-login:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-login:active { transform: translateY(0); }
+    .btn-login:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block; width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Alert */
+    .alert-box {
+      padding: .75rem 1rem;
+      border-radius: var(--radius);
+      font-size: .85rem;
+      display: none;
+      margin-bottom: 1rem;
+      border: 1px solid transparent;
+    }
+    .alert-box.error  { background: rgba(220,38,38,.1); border-color: rgba(220,38,38,.3); color: #FCA5A5; display: flex; align-items: center; gap: .5rem; }
+    .alert-box.show   { display: flex; }
+
+    .footer-text { text-align: center; font-size: .75rem; color: var(--dark-muted); margin-top: 1.5rem; }
+
+    /* Responsive */
+    @media (max-width: 780px) {
+      .left-panel { display: none; }
+      .right-panel { width: 100%; }
+    }
+
+    #toast-container { position: fixed; top: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: .5rem; }
+    .toast { padding: .8rem 1.1rem; border-radius: 10px; font-size: .875rem; font-weight: 600; display: flex; align-items: center; gap: .5rem; animation: slideIn .3s ease; }
+    .toast.success { background: rgba(22,163,74,.95); color: #fff; }
+    .toast.error   { background: rgba(220,38,38,.95); color: #fff; }
+    @keyframes slideIn { from { transform: translateX(110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="brand">
+      <div class="brand-logo"><i class="bi bi-mortarboard-fill"></i></div>
+      <h1>HT_<span>LMS</span></h1>
+      <p>Hệ thống Quản lý Học tập<br>Toàn diện & Hiện đại</p>
+    </div>
+
+    <div class="feature-list">
+      <div class="feature-item">
+        <i class="bi bi-shield-check"></i>
+        <span><strong>Phân quyền</strong> đa cấp: SV – GV – Nhân viên – Admin</span>
+      </div>
+      <div class="feature-item">
+        <i class="bi bi-play-circle"></i>
+        <span><strong>Học liệu</strong> đa dạng: Video, PDF, Slide, Audio</span>
+      </div>
+      <div class="feature-item">
+        <i class="bi bi-file-text"></i>
+        <span><strong>Kiểm tra, Thi</strong> trực tuyến tự động chấm điểm</span>
+      </div>
+      <div class="feature-item">
+        <i class="bi bi-graph-up-arrow"></i>
+        <span><strong>Theo dõi tiến độ</strong> và cảnh báo học tập sớm</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <button id="themeToggle" style="position:absolute; top:1.5rem; right:1.5rem; background:var(--dark-surface); border:1px solid var(--dark-border); width:36px; height:36px; border-radius:8px; display:grid; place-items:center; cursor:pointer; color:var(--dark-text); font-size:1.1rem; transition:all .2s;">
+      <i class="bi bi-moon-stars"></i>
+    </button>
+    <div class="login-box">
+      <h2>Chào mừng trở lại</h2>
+      <p class="subtitle">Đăng nhập để truy cập hệ thống học tập</p>
+
+      <!-- Role selector -->
+      <div class="role-selector" id="roleSelector">
+        <button class="role-btn active" data-role="NguoiHoc" onclick="selectRole(this)">
+          <i class="bi bi-person-badge"></i>Người học
+        </button>
+        <button class="role-btn" data-role="GiangVien" onclick="selectRole(this)">
+          <i class="bi bi-person-workspace"></i>Giảng viên
+        </button>
+        <button class="role-btn" data-role="NhanVien" onclick="selectRole(this)">
+          <i class="bi bi-person-gear"></i>Nhân viên
+        </button>
+      </div>
+
+      <!-- Alert -->
+      <div class="alert-box" id="alertBox">
+        <i class="bi bi-exclamation-circle"></i>
+        <span id="alertMsg"></span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Tên đăng nhập / Email</label>
+          <div class="input-wrap">
+            <i class="bi bi-person ic-left"></i>
+            <input type="text" id="username" class="form-input" 
+                   placeholder="Nhập tên đăng nhập hoặc email" autocomplete="username" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <a href="#" class="forgot-link">Quên mật khẩu?</a>
+          <label class="form-label">Mật khẩu</label>
+          <div class="input-wrap">
+            <i class="bi bi-lock ic-left"></i>
+            <input type="password" id="password" class="form-input"
+                   placeholder="Nhập mật khẩu" autocomplete="current-password" required>
+            <button type="button" class="password-toggle" onclick="togglePassword()">
+              <i class="bi bi-eye" id="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login" id="loginBtn">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span id="loginBtnText">Đăng nhập</span>
+        </button>
+      </form>
+
+      <p class="footer-text">
+        HT_LMS &copy; 2024 – Hệ thống quản lý học tập<br>
+        Phiên bản 1.0.0
+      </p>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    // Nếu đã đăng nhập → redirect
+    (function() {
+      const token = localStorage.getItem('lms_access_token');
+      const info = localStorage.getItem('lms_user_info');
+      if (token && info) {
+        const user = JSON.parse(info);
+        const loai = user.loai_tai_khoan;
+        if (loai === 'NguoiHoc')  location.href = '../nguoi_hoc/dashboard.html';
+        else if (loai === 'GiangVien') location.href = '../giang_vien/dashboard.html';
+        else location.href = '../admin/dashboard.html';
+      }
+    })();
+
+    const API_BASE = 'http://localhost:5000';
+    let selectedRole = 'NguoiHoc';
+
+    // Theme Manager
+    class ThemeManager {
+        static init() {
+            const savedTheme = localStorage.getItem('lms_theme') || 'dark';
+            this.setTheme(savedTheme);
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                this.setTheme(current === 'dark' ? 'light' : 'dark');
+            });
+        }
+        static setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('lms_theme', theme);
+            const btn = document.getElementById('themeToggle');
+            if (btn) btn.innerHTML = theme === 'dark' ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
+        }
+    }
+    ThemeManager.init();
+
+    function selectRole(btn) {
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedRole = btn.dataset.role;
+      hideAlert();
+    }
+
+    function togglePassword() {
+      const pwd = document.getElementById('password');
+      const icon = document.getElementById('eyeIcon');
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+      } else {
+        pwd.type = 'password';
+        icon.className = 'bi bi-eye';
+      }
+    }
+
+    function showAlert(msg) {
+      const box = document.getElementById('alertBox');
+      document.getElementById('alertMsg').textContent = msg;
+      box.className = 'alert-box error show';
+    }
+
+    function hideAlert() {
+      document.getElementById('alertBox').className = 'alert-box';
+    }
+
+    function setLoading(loading) {
+      const btn = document.getElementById('loginBtn');
+      const txt = document.getElementById('loginBtnText');
+      btn.disabled = loading;
+      if (loading) {
+        txt.textContent = 'Đang đăng nhập...';
+        btn.innerHTML = `<span class="spinner"></span><span>Đang đăng nhập...</span>`;
+      } else {
+        btn.innerHTML = `<i class="bi bi-box-arrow-in-right"></i><span>Đăng nhập</span>`;
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      hideAlert();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      if (!username || !password) { showAlert('Vui lòng nhập đầy đủ thông tin'); return; }
+      setLoading(true);
+
+      try {
+        const res = await $.ajax({
+          url: `${API_BASE}/api/auth/dang-nhap`,
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ ten_dang_nhap: username, mat_khau: password, loai_tai_khoan: selectedRole })
+        });
+
+        if (res?.data) {
+          localStorage.setItem('lms_access_token',  res.data.access_token);
+          localStorage.setItem('lms_refresh_token', res.data.refresh_token);
+          localStorage.setItem('lms_user_info', JSON.stringify(res.data.user_info));
+
+          // Redirect theo vai trò
+          const loai = res.data.user_info.loai_tai_khoan;
+          if (loai === 'NguoiHoc')       location.href = '../nguoi_hoc/dashboard.html';
+          else if (loai === 'GiangVien') location.href = '../giang_vien/dashboard.html';
+          else                            location.href = '../admin/dashboard.html';
+        }
+      } catch (err) {
+        const msg = err?.responseJSON?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại.';
+        showAlert(msg);
+        setLoading(false);
+      }
+    }
+  </script>
+</body>
+</html>

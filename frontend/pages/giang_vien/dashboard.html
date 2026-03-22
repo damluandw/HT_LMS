@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard – Giảng viên | HT_LMS</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+<div class="app-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#7C3AED,#2563EB);display:grid;place-items:center">
+        <i class="bi bi-person-workspace" style="color:#fff;font-size:1.1rem"></i>
+      </div>
+      <span>HT_LMS</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <p class="nav-section-title">Tổng quan</p>
+      <a class="nav-item active" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      
+      <p class="nav-section-title">Giảng dạy</p>
+      <a class="nav-item" href="lop-hoc-phan.html"><i class="bi bi-collection"></i> Lớp học phần</a>
+      <a class="nav-item" href="khoa-hoc.html"><i class="bi bi-book"></i> Khóa học LMS</a>
+      <a class="nav-item" href="hoc-lieu.html"><i class="bi bi-play-circle"></i> Học liệu</a>
+
+      <p class="nav-section-title">Đánh giá</p>
+      <a class="nav-item" href="bai-kiem-tra.html"><i class="bi bi-file-text"></i> Bài kiểm tra</a>
+      <a class="nav-item" href="ngan-hang-cau-hoi.html"><i class="bi bi-question-circle"></i> Ngân hàng câu hỏi</a>
+      <a class="nav-item" href="diem.html"><i class="bi bi-clipboard-data"></i> Quản lý điểm</a>
+      <a class="nav-item" href="diem-danh.html"><i class="bi bi-person-check"></i> Điểm danh</a>
+
+      <p class="nav-section-title">Cá nhân</p>
+      <a class="nav-item" href="../shared/profile.html"><i class="bi bi-person-circle"></i> Hồ sơ cá nhân</a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-mini">
+        <div class="user-avatar" id="userAvatar">GV</div>
+        <div class="user-mini-info">
+          <div class="user-mini-name" id="userName">Giảng viên</div>
+          <div class="user-mini-role" id="userRole">Giảng viên</div>
+        </div>
+        <i class="bi bi-box-arrow-right" style="color:var(--dark-muted);cursor:pointer" id="logoutBtn"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <button class="btn-icon sidebar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <div class="topbar-title">Dashboard Giảng viên</div>
+      <div class="topbar-actions">
+        <button class="btn-icon" id="themeToggle" title="Giao diện"><i class="bi bi-sun"></i></button>
+        <button class="btn-icon"><i class="bi bi-bell"></i></button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div style="margin-bottom:1.5rem">
+        <h1 style="font-size:1.3rem;font-weight:800" id="greeting">Xin chào!</h1>
+        <p style="color:var(--dark-muted);font-size:.875rem" id="dateStr"></p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat-card blue">
+          <div class="stat-icon"><i class="bi bi-collection"></i></div>
+          <div><div class="stat-value" id="statLop">—</div><div class="stat-label">Lớp đang dạy</div></div>
+        </div>
+        <div class="stat-card violet">
+          <div class="stat-icon"><i class="bi bi-people"></i></div>
+          <div><div class="stat-value" id="statSV">—</div><div class="stat-label">Sinh viên</div></div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon"><i class="bi bi-file-text"></i></div>
+          <div><div class="stat-value" id="statBaiKT">—</div><div class="stat-label">Bài kiểm tra</div></div>
+        </div>
+      </div>
+
+      <!-- Lớp học phần -->
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header">
+          <span class="card-title"><i class="bi bi-collection" style="color:#60A5FA"></i> Lớp học phần học kỳ này</span>
+          <a href="lop-hoc-phan.html" class="btn btn-sm btn-outline">Xem tất cả</a>
+        </div>
+        <div class="card-body" style="padding:0">
+          <div class="table-responsive">
+            <table class="lms-table">
+              <thead><tr>
+                <th>Mã lớp</th><th>Học phần</th><th>Học kỳ</th><th>Sĩ số</th><th>Trạng thái</th>
+              </tr></thead>
+              <tbody id="lopBody"><tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--dark-muted)">Đang tải...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Khóa học -->
+      <div style="margin-top:1.5rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+          <h3 style="font-size:.95rem;font-weight:700"><i class="bi bi-book" style="color:#A78BFA"></i> Khóa học của tôi</h3>
+          <a href="khoa-hoc.html" class="btn btn-sm btn-outline">Xem tất cả</a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem" id="khoaHocGrid">
+          <p style="color:var(--dark-muted);font-size:.875rem">Đang tải...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="../../assets/js/api.js"></script>
+<script>
+if (!api.isLoggedIn() || api.getLoaiTaiKhoan() !== 'GiangVien') location.href = '../auth/login.html';
+
+const user = api.getUserInfo();
+const hoSo = user?.ho_so || {};
+const hoTen = hoSo.ho_ten || 'Giảng viên';
+document.getElementById('userName').textContent = hoTen;
+document.getElementById('userAvatar').textContent = LMSUtils.getInitials(hoTen);
+document.getElementById('userRole').textContent = hoSo.hoc_vi ? `${hoSo.hoc_vi} - ${hoSo.ten_bo_mon || ''}` : 'Giảng viên';
+document.getElementById('greeting').textContent = `Xin chào, ${hoSo.ho_ten?.split(' ').pop() || ''} 👋`;
+document.getElementById('dateStr').textContent = new Date().toLocaleDateString('vi-VN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+document.getElementById('logoutBtn').addEventListener('click', () => api.dangXuat());
+document.getElementById('sidebarToggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
+
+async function loadDashboard() {
+  try {
+    const [lopRes, khRes] = await Promise.all([
+      api.getlopCuaToi(),
+      api.getKhoaHoc()
+    ]);
+
+    const lops = lopRes?.data || [];
+    document.getElementById('statLop').textContent = lops.length;
+
+    // Tổng sinh viên
+    const tongSV = lops.reduce((s, l) => s + (l.SiSo || 0), 0);
+    document.getElementById('statSV').textContent = tongSV;
+    document.getElementById('statBaiKT').textContent = '—';
+
+    // Render table
+    document.getElementById('lopBody').innerHTML = lops.length > 0
+      ? lops.map(l => `
+        <tr>
+          <td><strong>${l.MaLopHPCode || '—'}</strong></td>
+          <td>${l.TenHocPhan || '—'}<br><small style="color:var(--dark-muted)">${l.SoTinChi || ''} tín chỉ</small></td>
+          <td>${l.TenHocKy || '—'}</td>
+          <td>${l.SiSo ?? '—'}</td>
+          <td>${LMSUtils.badgeByTrangThai(l.TrangThai)}</td>
+        </tr>`).join('')
+      : '<tr><td colspan="5" style="text-align:center;color:var(--dark-muted);padding:1.5rem">Không có lớp trong học kỳ này</td></tr>';
+
+    // Khóa học grid
+    const khs = (khRes?.data || []).slice(0, 6);
+    document.getElementById('khoaHocGrid').innerHTML = khs.length > 0
+      ? khs.map(kh => `
+        <div class="course-card" onclick="location.href='khoa-hoc.html'">
+          <div class="course-card-img">📚</div>
+          <div class="course-card-body">
+            <div class="course-card-subject">${kh.MaLopHPCode || ''}</div>
+            <div class="course-card-title">${kh.TenKhoaHoc || kh.TenHocPhan}</div>
+            <div class="course-card-meta">
+              <i class="bi bi-people"></i> ${kh.SiSoHienTai ?? '—'} sinh viên &nbsp;
+              <i class="bi bi-journal"></i> ${kh.SoChuong ?? 0} chương
+            </div>
+          </div>
+        </div>`).join('')
+      : '<p style="color:var(--dark-muted)">Chưa có khóa học nào.</p>';
+
+  } catch(e) { 
+    console.warn('Dashboard error:', e); 
+    Toast.show('Lỗi tải dữ liệu dashboard', 'error');
+  }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>

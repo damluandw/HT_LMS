@@ -1,0 +1,135 @@
+1	Phân hệ Quản trị & Thương hiệu
+1.1	Phân quyền ma trận	
+- Super Admin / IT Admin / Academic Affairs (Phòng đào tạo) / Khoa–Bộ môn / Giảng viên / Trợ giảng / Cố vấn học tập / Sinh viên / Khách (guest) / Doanh nghiệp (đối tác thực tập)…
+- Phân quyền chi tiết theo: trường, khoa, ngành, lớp, học phần, nhóm, theo từng chức năng (xem–tạo–sửa–xóa–xuất báo cáo).
+- Phân quyền tài nguyên: ai được xem học liệu, ai được tải xuống, ai được chỉnh sửa câu hỏi ngân hàng…
+- Cho phép giảng viên phân quyền cho trợ giảng (TA) theo từng nhiệm vụ cụ thể: chấm bài tập nhóm A, quản lý forum chủ đề B, điểm danh lớp C
+- Quyền chia sẻ học liệu giữa các giảng viên cùng bộ môn (thư viện nội bộ)
+- Phân quyền xem điểm: giảng viên chỉ thấy lớp mình dạy, trưởng bộ môn thấy toàn bộ môn, cố vấn thấy sinh viên mình phụ trách
+- Quyền tạo course template để giảng viên khác sao chép và tùy chỉnh
+- Phân quyền giảng viên phù hợp chức năng nhiệm vụ cụ thể
+- Phân quyền theo dõi TKB, kết quả học tập của từng Ngành theo chức năng
+1.2	Quản lý đa cơ sở	
+- Cho phép quản lý tập trung nhưng dữ liệu từng cơ sở có thể tách biệt nếu cần.
+1.3	Audit Log	
+- Ghi lại mọi hành động của người dùng (ai đã sửa điểm, ai đã xóa bài, vào lúc nào) để tra soát khi có sự cố.
+1.4	Quản lý danh tính	
+- Chính sách mật khẩu, khóa tài khoản, giới hạn phiên đăng nhập.
+1.5	Cấu trúc tổ chức	
+- Trường → Cơ sở → Khoa → Bộ môn → Ngành → Khóa → Lớp hành chính → Lớp học phần.
+- Nhóm học tập linh hoạt (nhóm theo dự án, nhóm theo năng lực, nhóm ngẫu nhiên).
+1.6	Hồ sơ & Vòng đời ngừoi dùng	- Hồ sơ sinh viên/giảng viên, trạng thái (đang học/bảo lưu/tốt nghiệp), lịch sử học phần, chứng chỉ.
+- Import/Sync hàng loạt (Excel/CSV) + đồng bộ tự động từ SIS/ERP.
+2	Quản lý học vụ
+2.1	Chương trình đào tạo	
+- Quản lý CTĐT theo ngành : bắt buộc/ tự chọn
+- Quản lý đề cương môn học : mục tiêu, nội dung, kế hoạch giảng dạy
+2.2	Học kỳ/ niên khoá / học phần	- Tạo kỳ học, tuần học, lịch học; mở lớp học phần; giới hạn sĩ số; danh sách chờ (waitlist). 
+- Đăng ký học phần, rút học phần, chuyển lớp, học lại/cải thiện.
+2.3	Điểm danh & chuyên cần	
+- Điểm danh theo buổi
+- Quy định vắng có phép/không phép, báo cáo chuyên cần theo tuần/kỳ.
+- Quản lý tình trạng sinh viên nghỉ học, bảo lưu, thôi học theo từng tháng, từng học kỳ.
+2.4	Lịch học & thời khoá biểu	
+- Lịch học–lịch thi–deadline bài tập đồng bộ lên Calendar trong LMS + push thông báo.
+3	Quản lý khoá học & Trải nghiệm học tập
+3.1	Trang môn học	
+- Template theo khoa/bộ môn (tạo “bộ khung” sẵn).
+- Trang chủ môn: mục tiêu, lịch tuần, học liệu, bài tập/quiz, forum, office hours.
+3.2	Lộ trình học (Learning Path)	
+- Học theo chủ đề/module; điều kiện mở khóa học liệu
+- “Adaptive release”: mở bài theo tiến độ/điểm/đã hoàn thành.
+3.3	Nội dung đa phương tiện	- Video, PDF, slide, audio, 
+- Phụ đề, transcript, tốc độ phát, chapter.
+3.4	Kho học liệu dùng chung	
+4	Bài tập 
+– kiểm tra – thi cử
+4.1	Bài tập	
+- Nộp file, nộp link, nộp văn bản trực tiếp, nộp video, nộp code (repo).
+- Deadline, gia hạn (extension), nộp muộn có phạt điểm.
+- Nhóm bài tập: nộp theo nhóm, chia điểm theo đóng góp (peer contribution).
+4.2	Ngân hàng câu hỏi 	
+- Phân loại theo: chủ đề, độ khó, CLO, dạng câu hỏi.
+- Random theo pool + xáo trộn đáp án, đề khác nhau cho mỗi sinh viên.
+- Dạng câu hỏi hiện đại:
+- Trắc nghiệm, đúng/sai, điền khuyết, ghép cặp
+- Tự luận (có gợi ý thang điểm)
+- Câu hỏi kéo thả, hotspot trên hình
+- Tính toán tham số (parameterized)
+- Câu hỏi lập trình (unit test), SQL query, mô phỏng lab
+4.3	Thi online	
+- Phòng thi (Exam room) + phân ca thi.
+- Safe exam:
+  + Lockdown browser (nếu dùng)
+  + Giới hạn tab/copy-paste (tùy mức)
+  + Proctoring: giám sát webcam/AI/ghi màn hình (nếu trường chấp nhận chính sách)
+  + Nhật ký thi (audit trail): thời điểm bắt đầu/kết thúc, IP, hành vi bất thường
+  + Xử lý sự cố: rớt mạng → cho vào lại, bù thời gian theo chính sách.
+5	Sổ điểm, chuẩn hoá điểm, phúc khảo
+5.1	Sổ điểm	
+- Sổ điểm theo lớp học phần: trọng số, thang điểm, quy đổi A/B/C… hoặc 10/100. 
+- Tự động tổng hợp: điểm quá trình, điểm thi, điểm chuyên cần.
+5.2	Chuẩn hoá	
+- Tự động tổng hợp: điểm quá trình, điểm thi, điểm chuyên cần.
+5.3	Phúc khảo	
+- Phúc khảo: 
+   + Sinh viên gửi yêu cầu 
+   + Theo dõi trạng thái xử lý 
+   + Nhật ký thay đổi điểm ( ai sửa, sửa gì, khi nào, lý do)
+6	Giao tiếp, cộng tác
+6.1	Thông báo & nhắc việc	
+- Announcement theo môn/khoa/toàn trường, lên lịch đăng.
+- Push notification (app), email, in-app inbox.
+- Nhắc hạn tự động: deadline bài tập, lịch kiểm tra.
+6.2	Lớp học trực tuyến	
+- Tích hợp Zoom/Teams/Meet hoặc lớp học WebRTC tích hợp.
+- Điểm danh tự động từ lớp ảo.
+- Ghi hình, lưu bản ghi, chia nhỏ breakout room.
+- Bảng trắng, poll, quiz nhanh trong buổi học.
+6.3	Lịch gặp giảng viên	
+- Giảng viên mở khung giờ → sinh viên đặt lịch → tự tạo link họp.
+7	Theo dõi tiến độ – phân tích học tập 
+– cảnh báo sớm
+7.1	Dashboard cho sinh viên	
+- Tiến độ theo tuần/module, checklist việc cần làm.
+7.2	Dashboard cho giảng viên	
+- Heatmap: ai chưa xem bài, ai nộp trễ, ai có dấu hiệu bỏ học.
+7.3	Dashboard cho khoa/phòng đào tạo	
+- Tỷ lệ hoàn thành, tỷ lệ rớt, phân bổ điểm theo lớp/giảng viên (cẩn trọng khi so sánh).
+- Báo cáo chuẩn đầu ra: CLO đạt/chưa đạt theo học phần → tổng hợp PLO theo ngành.- 
+7.4	Early Warning System (cảnh báo sớm)	
+- Luật cảnh báo: vắng quá X buổi, không đăng nhập Y ngày, nộp trễ Z lần…
+- Tự động gửi nhắc + chuyển danh sách cho cố vấn học tập.
+8	Chứng chỉ, huy hiệu, e-Portfolio (Credentialing)
+8.1	Chứng chỉ và e- Portfolio	
+- Cấp chứng chỉ hoàn thành học phần/khóa ngắn hạn.
+- Micro-credentials & Open Badges (huy hiệu số) có metadata: kỹ năng, thời lượng, đơn vị cấp.
+- E-Portfolio: sinh viên lưu dự án, bài làm, chứng nhận thực tập → chia sẻ nhà tuyển dụng.
+9	Ai & Smart LMS
+9.1	Trợ lý học tập AI cho sinh viên	
+- Chat tutor theo học liệu của môn (RAG), trả lời có trích dẫn đoạn tài liệu.
+- Gợi ý lộ trình học cá nhân hóa theo điểm yếu.
+- Tự tạo flashcards, câu hỏi ôn tập theo bài.
+9.2	Trợ lý giảng viên	
+- Tạo đề cương, kế hoạch tuần, gợi ý hoạt động lớp.
+- Sinh câu hỏi theo CLO + mức độ khó, kèm đáp án và giải thích.
+- Tóm tắt thảo luận forum, phát hiện câu hỏi “được hỏi nhiều”.
+9.3	Trợ lý khoa/phòng đào tạo	
+- Tóm tắt tiến độ học tập của sinh viên.
+- Phát hiện sinh viên có nguy cơ bỏ học.
+- Gợi ý lộ trình học cá nhân hóa theo điểm yếu.
+9.4	Trợ lý quản trị hệ thống	
+- Tự động dọn dẹp dữ liệu rác.
+- Gợi ý tối ưu cấu hình.
+- Phát hiện lỗ hổng bảo mật.
+
+10	Đa công năng
+###	Mục tiêu	
+- Đào tạo chính quy: môn học phần, điểm, chuẩn đầu ra.
+- Đào tạo ngắn hạn/CPD: khóa theo cohort, thu phí, cấp chứng chỉ.
+- Đào tạo nội bộ cán bộ: onboarding, quy trình, bài kiểm tra tuân thủ.
+- Liên kết doanh nghiệp: lớp học thực tập, nhật ký thực tập, đánh giá năng lực.
+- MOOC nội bộ: mở học liệu tự học, tracking tiến độ, forum cộng đồng.
+11. Hệ thống báo cáo
+- Có thể lấy các mẫu báo cáo và tự động lấy dữ liệu và sinh ra báo cáo tự động
+

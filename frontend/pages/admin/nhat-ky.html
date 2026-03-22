@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nhật ký hệ thống | HT_LMS</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+<div class="app-wrapper">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#2563EB,#7C3AED);display:grid;place-items:center">
+        <i class="bi bi-mortarboard-fill" style="color:#fff;font-size:1.1rem"></i>
+      </div>
+      <span>HT_LMS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-section-title">Tổng quan</p>
+      <a class="nav-item" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <p class="nav-section-title">Quản lý người dùng</p>
+      <a class="nav-item" href="nguoi-hoc.html"><i class="bi bi-person-badge"></i> Người học</a>
+      <a class="nav-item" href="giang-vien.html"><i class="bi bi-person-workspace"></i> Giảng viên</a>
+      <a class="nav-item" href="nhan-vien.html"><i class="bi bi-person-gear"></i> Nhân viên</a>
+      <p class="nav-section-title">Cơ cấu tổ chức</p>
+      <a class="nav-item" href="khoa.html"><i class="bi bi-building"></i> Khoa / Bộ môn</a>
+      <a class="nav-item" href="nganh.html"><i class="bi bi-diagram-3"></i> Ngành / Lớp HC</a>
+      <p class="nav-section-title">Hệ thống</p>
+      <a class="nav-item" href="../shared/profile.html"><i class="bi bi-person-circle"></i> Hồ sơ cá nhân</a>
+      <a class="nav-item active" href="nhat-ky.html"><i class="bi bi-journal-text"></i> Nhật ký hệ thống</a>
+      <a class="nav-item" href="bao-cao.html"><i class="bi bi-bar-chart-line"></i> Báo cáo</a>
+    </nav>
+  </aside>
+
+  <div class="main-content">
+    <div class="topbar">
+      <button class="btn-icon sidebar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+      <div class="topbar-title">Nhật ký Hệ thống & Bảo mật</div>
+    </div>
+
+    <div class="page-content">
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><p style="color:var(--dark-muted);font-size:.9rem">Phiên đăng nhập (24h)</p><h3>124</h3></div>
+            <div style="width:48px;height:48px;border-radius:12px;background:rgba(37,99,235,0.1);display:grid;place-items:center"><i class="bi bi-shield-check" style="color:var(--primary);font-size:1.5rem"></i></div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><p style="color:var(--dark-muted);font-size:.9rem">Cảnh báo bảo mật</p><h3 style="color:#ef4444">2</h3></div>
+            <div style="width:48px;height:48px;border-radius:12px;background:rgba(239,68,68,0.1);display:grid;place-items:center"><i class="bi bi-exclamation-triangle" style="color:#ef4444;font-size:1.5rem"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0">
+        <div style="padding:1.25rem;border-bottom:1px solid var(--dark-border);display:flex;justify-content:space-between;align-items:center">
+            <h4 style="margin:0">Hoạt động gần đây</h4>
+            <div style="display:flex;gap:1rem">
+                <input type="text" class="form-control" placeholder="Lọc nhật ký..." style="max-width:200px">
+                <button class="btn btn-outline btn-sm">Xuất logs</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+          <table class="lms-table">
+            <thead>
+              <tr>
+                <th>Thời gian</th>
+                <th>Người dùng</th>
+                <th>Hành động</th>
+                <th>Đối tượng</th>
+                <th>IP / Thiết bị</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody id="logBody">
+                <tr>
+                    <td>22:30:45 22/03/2026</td>
+                    <td><b>admin</b> (Quản trị)</td>
+                    <td>Cập nhật Học kỳ</td>
+                    <td>Học kỳ 2 (2025-2026)</td>
+                    <td>192.168.1.15 (Chrome/Windows)</td>
+                    <td><span class="badge badge-success">Thành công</span></td>
+                </tr>
+                 <tr>
+                    <td>22:15:20 22/03/2026</td>
+                    <td><b>gv_thanh</b> (Giảng viên)</td>
+                    <td>Nhập điểm</td>
+                    <td>Lớp L01_HP01</td>
+                    <td>27.72.3.14 (Mobile App)</td>
+                    <td><span class="badge badge-success">Thành công</span></td>
+                </tr>
+                 <tr>
+                    <td>21:50:11 22/03/2026</td>
+                    <td><b>sv_an</b> (Người học)</td>
+                    <td>Đăng nhập</td>
+                    <td>Hệ thống</td>
+                    <td>113.161.4.92 (Safari/Mac)</td>
+                    <td><span class="badge badge-success">Thành công</span></td>
+                </tr>
+                <tr>
+                    <td>21:40:05 22/03/2026</td>
+                    <td><b>unknown</b></td>
+                    <td>Đăng nhập sai</td>
+                    <td>Hệ thống</td>
+                    <td>45.16.2.1 (Bot/Linux)</td>
+                    <td><span class="badge badge-danger">Thất bại</span></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $('#sidebarToggle').click(() => $('#sidebar').toggleClass('open'));
+</script>
+</body>
+</html>
